@@ -1,0 +1,4 @@
+env-openstack.sh
+/tmp/
+*.swp
+*.swo
