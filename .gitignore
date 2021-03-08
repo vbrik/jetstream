@@ -1,4 +1,5 @@
 env-openstack.sh
+.terraform*
 /tmp/
 *.swp
 *.swo
