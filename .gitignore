@@ -1,5 +1,6 @@
 env-openstack.sh
 .terraform*
+terraform.tfstate*
 /tmp/
 *.swp
 *.swo
