@@ -1,7 +1,7 @@
 # 
 # zookeepers
 #
-resource "openstack_compute_instance_v2" "zookeeper" {
+resource "openstack_compute_instance_v2" "zookeeper-int" {
   count = var.zookeeper_count
   name = "zookeeper-${count.index + 1}"
   image_name = "JS-API-Featured-CentOS8-Latest"
@@ -12,6 +12,15 @@ resource "openstack_compute_instance_v2" "zookeeper" {
   network {
     name = openstack_networking_network_v2.pulsar.name
   }
+
+/*  provisioner "remote-exec" {
+    inline = ["sudo hostname"]
+    connection {
+      type     = "ssh"
+      user     = "centos"
+      host     = tostring(element(openstack_networking_floatingip_v2.zookeeper.*.address, count.index))
+    }
+  }*/
 }
 
 resource "openstack_networking_floatingip_v2" "zookeeper" {
@@ -22,17 +31,17 @@ resource "openstack_networking_floatingip_v2" "zookeeper" {
 resource "openstack_compute_floatingip_associate_v2" "zookeeper" {
   count = var.zookeeper_count
   floating_ip = element(openstack_networking_floatingip_v2.zookeeper.*.address, count.index)
-  instance_id = element(openstack_compute_instance_v2.zookeeper.*.id, count.index)
+  instance_id = element(openstack_compute_instance_v2.zookeeper-int.*.id, count.index)
 }
 
 output "zookeeper_ips" {
   value = openstack_compute_floatingip_associate_v2.zookeeper.*.floating_ip
 }
-
+/*
 # 
 # bookies
 #
-resource "openstack_compute_instance_v2" "bookie" {
+resource "openstack_compute_instance_v2" "bookie-int" {
   count = var.bookie_count
   name = "bookie-${count.index + 1}"
   image_name = "JS-API-Featured-CentOS8-Latest"
@@ -53,7 +62,7 @@ resource "openstack_networking_floatingip_v2" "bookie" {
 resource "openstack_compute_floatingip_associate_v2" "bookie" {
   count = var.bookie_count
   floating_ip = element(openstack_networking_floatingip_v2.bookie.*.address, count.index)
-  instance_id = element(openstack_compute_instance_v2.bookie.*.id, count.index)
+  instance_id = element(openstack_compute_instance_v2.bookie-int.*.id, count.index)
 }
 
 output "bookie_ips" {
@@ -63,7 +72,7 @@ output "bookie_ips" {
 # 
 # brokers
 #
-resource "openstack_compute_instance_v2" "broker" {
+resource "openstack_compute_instance_v2" "broker-int" {
   count = var.broker_count
   name = "broker-${count.index + 1}"
   image_name = "JS-API-Featured-CentOS8-Latest"
@@ -84,7 +93,7 @@ resource "openstack_networking_floatingip_v2" "broker" {
 resource "openstack_compute_floatingip_associate_v2" "broker" {
   count = var.broker_count
   floating_ip = element(openstack_networking_floatingip_v2.broker.*.address, count.index)
-  instance_id = element(openstack_compute_instance_v2.broker.*.id, count.index)
+  instance_id = element(openstack_compute_instance_v2.broker-int.*.id, count.index)
 }
 
 output "broker_ips" {
@@ -94,7 +103,7 @@ output "broker_ips" {
 # 
 # proxies
 #
-resource "openstack_compute_instance_v2" "proxy" {
+resource "openstack_compute_instance_v2" "proxy-int" {
   count = var.proxy_count
   name = "proxy-${count.index + 1}"
   image_name = "JS-API-Featured-CentOS8-Latest"
@@ -115,9 +124,10 @@ resource "openstack_networking_floatingip_v2" "proxy" {
 resource "openstack_compute_floatingip_associate_v2" "proxy" {
   count = var.proxy_count
   floating_ip = element(openstack_networking_floatingip_v2.proxy.*.address, count.index)
-  instance_id = element(openstack_compute_instance_v2.proxy.*.id, count.index)
+  instance_id = element(openstack_compute_instance_v2.proxy-int.*.id, count.index)
 }
 
 output "proxy_ips" {
   value = openstack_compute_floatingip_associate_v2.proxy.*.floating_ip
 }
+*/
