@@ -7,7 +7,7 @@ resource "openstack_networking_network_v2" "pulsar" {
 resource "openstack_networking_subnet_v2" "pulsar" {
   name       = "pulsar-subnet"
   network_id = openstack_networking_network_v2.pulsar.id
-  cidr       = var.cidr
+  cidr       = var.internal_cidr
 }
 
 resource "openstack_networking_router_v2" "pulsar" {
