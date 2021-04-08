@@ -54,6 +54,18 @@ resource "openstack_compute_instance_v2" "bookie-int" {
   }
 }
 
+resource "openstack_blockstorage_volume_v2" "vol" {
+  count = var.instance_counts["bookie"]
+  name = format("vol-%02d", count.index + 1)
+  size = var.bookie_volume_size
+}
+
+resource "openstack_compute_volume_attach_v2" "va-bookie" {
+  count = var.instance_counts["bookie"]
+  instance_id = openstack_compute_instance_v2.bookie-int[count.index].id
+  volume_id   = openstack_blockstorage_volume_v2.vol[count.index].id
+}
+
 resource "openstack_networking_floatingip_v2" "bookie" {
   count = var.instance_counts["bookie"]
   pool  = "public"

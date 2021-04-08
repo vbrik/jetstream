@@ -1,3 +1,8 @@
+variable "bookie_volume_size" {
+  description = "Bookie storage volume size in MB"
+  default = 100
+}
+
 variable "instance_counts" {
   description = "Number of instances"
   type = map(string)
