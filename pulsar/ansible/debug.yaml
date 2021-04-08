@@ -1,6 +1,6 @@
 ---
 - name: Debug info
-  hosts: 129.*
+  hosts: zookeeper
   tasks:
     - name: hostvars
       debug: var=hostvars
@@ -8,14 +8,15 @@
       debug: var=groups
     - name: ansible_facts
       debug: var=ansible_facts
+    - set_fact:
+        zid: "{{ groups['zookeeper'].index(inventory_hostname) }}"
 
-#    - name: hostname
-#      shell: hostname
-#      register: hostname
-#    - debug: var=hostname.stdout_lines
+    - name: Echo
+      shell: "echo {{ zid }}"
+      register: echo
+    - debug: var=echo.stdout_lines
 
-#    - name: Echo
-#      shell: "echo {{ zookeeper_servers }} {{ service_url }} {{ http_url }} "
-#      register: echo
-#    - debug: var=echo.stdout_lines
+    - debug:
+        msg: "{{ zid }}"
+        x: 1
 
