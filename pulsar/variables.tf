@@ -7,11 +7,11 @@ variable "instance_counts" {
   description = "Number of instances"
   type = map(string)
   default = {
-    "zookeeper" = 1
-    "bookie" = 1
-    "broker" = 1
+    "bookie" = 0
+    "broker" = 0
+    "client" = 0
     "proxy" = 1
-    "client" = 1
+    "zookeeper" = 1
   }
 }
 
@@ -19,11 +19,11 @@ variable "instance_types" {
   description = "Number of instances"
   type = map(string)
   default = {
-    "zookeeper" = "m1.tiny"
-    "bookie" = "m1.tiny"
-    "broker" = "m1.tiny"
-    "proxy" = "m1.tiny"
-    "client" = "m1.tiny"
+    "bookie" = "m1.small"
+    "broker" = "m1.small"
+    "client" = "m1.small"
+    "proxy" = "m1.small"
+    "zookeeper" = "m1.small"
   }
 }
 

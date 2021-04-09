@@ -47,8 +47,8 @@
   hosts: bookie, broker, proxy, client
   tasks:
     - set_fact:
-        max_heap_memory: "1g" # XXX was 12g
-        max_direct_memory: "1g" # XXX was 12g
+        max_heap_memory: "2g" # XXX was 12g
+        max_direct_memory: "2g" # XXX was 12g
         cluster_name: "local"
     - name: Add pulsar_env.sh configuration file
       template:
@@ -87,7 +87,7 @@
     - name: Add zookeeper.conf file
       template:
         src: "templates/zoo.cfg"
-        dest: "/opt/pulsar/conf/zookeeper.conf"
+        dest: "/opt/pulsar/conf/zookeeper.conf" # XXX is server.0=PUB_IP:2888:3888 correct?
       notify:
          - restart_zookeeper
     - name: Add myid file for ZooKeeper
