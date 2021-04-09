@@ -1,22 +1,29 @@
 ---
 - name: Debug info
-  hosts: zookeeper
+  hosts: localhost
   tasks:
-    - name: hostvars
-      debug: var=hostvars
-    - name: groups
-      debug: var=groups
-    - name: ansible_facts
-      debug: var=ansible_facts
-    - set_fact:
-        zid: "{{ groups['zookeeper'].index(inventory_hostname) }}"
-
+#    - name: groups
+#      debug: var=groups
     - name: Echo
-      shell: "echo {{ zid }}"
+      shell: "echo {{ bookie_priv_ips|map('regex_replace', '^(.*)$', '\\1:2181') | join(',') }}"
       register: echo
     - debug: var=echo.stdout_lines
-
-    - debug:
-        msg: "{{ zid }}"
-        x: 1
-
+#    
+#    - name: hostvars
+#      debug: var=hostvars
+#    - name: groups
+#      debug: var=groups
+#    - name: ansible_facts
+#      debug: var=ansible_facts
+#    - set_fact:
+#        zid: "{{ groups['zookeeper'].index(inventory_hostname) }}"
+#
+#    - name: Echo
+#      shell: "echo {{ zid }}"
+#      register: echo
+#    - debug: var=echo.stdout_lines
+#
+#    - debug:
+#        msg: "{{ zid }}"
+#        x: 1
+#

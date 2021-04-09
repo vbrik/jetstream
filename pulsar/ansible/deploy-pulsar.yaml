@@ -38,21 +38,17 @@
       when: result.stat.exists == false
     - name: Set URL facts
       set_fact:
-        zookeeper_servers: "{{ groups['zookeeper'] }}"
-        service_url: "pulsar://{{ groups['proxy'][0] }}:6650/"
-        http_url: "http://{{ groups['proxy'][0] }}:8080/"
-        client_connection_address: "{{ inventory_hostname }}"
-#    - name: Echo
-#      shell: "echo {{ zookeeper_servers }} {{ service_url }} {{ http_url }} "
-#      register: echo
-#    - debug: var=echo.stdout_lines
+        zookeeper_servers: "{{ zookeeper_priv_ips|map('regex_replace', '^(.*)$', '\\1:2181') | join(',') }}"
+        service_url: "pulsar://{{ proxy_pub_ips[0] }}:6650/"
+        http_url: "http://{{ proxy_pub_ips[0] }}:8080/"
+        client_connection_address: "{{ inventory_hostname }}" # XXX should this be an internal address?
 
 - name: Pulsar setup (!zookeeper)
   hosts: bookie, broker, proxy, client
   tasks:
     - set_fact:
-        max_heap_memory: "1g" # XXX
-        max_direct_memory: "1g" # XXX
+        max_heap_memory: "1g" # XXX was 12g
+        max_direct_memory: "1g" # XXX was 12g
         cluster_name: "local"
     - name: Add pulsar_env.sh configuration file
       template:
