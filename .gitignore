@@ -1,6 +1,7 @@
 env-openstack.sh
 .terraform*
 terraform.tfstate*
+secrets/
 /tmp/
 *.swp
 *.swo
