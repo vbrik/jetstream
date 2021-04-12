@@ -5,9 +5,14 @@
       file:
         path: "/opt/pulsar"
         state: directory
+    - name: Stop firewalld
+      systemd:
+        enabled: no
+        state: stopped
+        name: "firewalld"
     - name: Install helper packages
       dnf:
-        name: [bash-completion, mlocate, sysstat, vim]
+        name: [bash-completion, dstat, mlocate, nmap, sysstat, vim]
     - name: Set sysctl params
       sysctl:
         name: "{{ item.key }}"

@@ -39,7 +39,6 @@ resource "openstack_compute_instance_v2" "bookie-int" {
   network {
     uuid = openstack_networking_network_v2.pulsar.id
   }
-  netw
 }
 
 #resource "openstack_blockstorage_volume_v2" "vol" {

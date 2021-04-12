@@ -7,9 +7,9 @@ variable "instance_counts" {
   description = "Number of instances"
   type = map(string)
   default = {
-    "bookie" = 0
-    "broker" = 0
-    "client" = 0
+    "bookie" = 1
+    "broker" = 1
+    "client" = 1
     "proxy" = 1
     "zookeeper" = 1
   }
