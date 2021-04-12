@@ -1,7 +1,7 @@
 variable "num_instances" {
   description = "Number of instances"
   type = number
-  default = 1
+  default = 2
 }
 
 variable "cidr" {

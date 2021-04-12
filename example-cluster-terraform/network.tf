@@ -7,6 +7,14 @@ resource "openstack_networking_secgroup_v2" "demo" {
   name = "demo-sg"
 }
 
+resource "openstack_networking_secgroup_rule_v2" "terraform" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "icmp"
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.demo.id
+}
+
 resource "openstack_networking_secgroup_rule_v2" "global-ssh-ingress" {
   direction         = "ingress"
   ethertype         = "IPv4"

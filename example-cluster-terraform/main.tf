@@ -21,7 +21,7 @@ resource "openstack_compute_instance_v2" "demo" {
   name = "demo-${count.index}"
   image_name = "JS-API-Featured-CentOS8-Latest"
   flavor_name = "m1.tiny"
-  security_groups = ["demo-sg"]
+  security_groups = ["default", "demo-sg"]
   key_pair = openstack_compute_keypair_v2.demo.name
 
   network {
